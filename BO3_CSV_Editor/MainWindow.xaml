@@ -1,0 +1,84 @@
+<Window x:Class="BO3_CSV_Editor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BO3_CSV_Editor"
+        mc:Ignorable="d"
+        Title="BO3 CSV Editor" Height="474.75" Width="525" Icon="bo3csv.png">
+    <Grid>
+
+        <Label x:Name="About" Content="{ Binding About, Mode = TwoWay, UpdateSourceTrigger = PropertyChanged}" Margin="0,-3.283,3,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="101.967" Height="25.96"/>
+
+        <Button Command="{ Binding CmdSaveCSV }" Content="Save" Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"/>
+        <TextBox x:Name="fileName" Text="{ Binding FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="23" Margin="10,4.677,104.967,0" TextWrapping="NoWrap" VerticalAlignment="Top" TextChanged="FileNameChange"/>
+        <TabControl Margin="10,32.677,10,33.937">
+            <TabItem Header="Spreadsheet">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid CanUserDeleteRows="False" RowHeaderWidth="20" CanUserAddRows="True" ItemsSource="{ Binding csvdata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" x:Name="csvtable" AutoGenerateColumns="True" FrozenColumnCount="1" ColumnWidth="Auto" CurrentCellChanged="csvtable_CurrentCellChanged" LostFocus="csvtable_LostFocus" CellEditEnding="myDG_CellEditEnding" KeyUp="csvtable_KeyUp">
+                        <DataGrid.ContextMenu>
+
+                            <ContextMenu>
+                                <!--<MenuItem Command="Cut">
+                                    <MenuItem.Icon>
+                                        <Image Source="Images/cut.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>-->
+                                <MenuItem Command="Copy">
+                                    <MenuItem.Icon>
+                                        <Image Source="Images/copy.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <!--<MenuItem Command="Paste">
+                                    <MenuItem.Icon>
+                                        <Image Source="Images/paste.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>-->
+                                <MenuItem Command="{Binding CmdDuplicate}" Header="Duplicate" Loaded="MenuItem_Loaded" >
+                                    <MenuItem.Icon>
+                                        <Image Source="Images/copy.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Command="{Binding CmdInsertAbove}" Header="Insert Row Above" Loaded="MenuItem_Loaded" >
+                                    <MenuItem.Icon>
+                                        <Image Source="Images/insertabove.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Command="{Binding CmdInsertBelow}" Header="Insert Row Below" Loaded="MenuItem_Loaded">
+                                    <MenuItem.Icon>
+                                        <Image Source="Images/insertbelow.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Command="{Binding CmdRefresh}" Header="Reload Original" Loaded="MenuItem_Loaded">
+                                    <MenuItem.Icon>
+                                        <Image Source="Images/refresh.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Command="{Binding CmdDelete}" Header="Delete Row"  Loaded="MenuItem_Loaded">
+                                    <MenuItem.Icon>
+                                        <Image Source="Images/remove.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
+                    <TextBox x:Name="search1" HorizontalAlignment="Left" TextWrapping="Wrap" Width="113" TextChanged="TextBox_TextChanged_1" Height="23" VerticalAlignment="Bottom" MouseEnter="search1_MouseEnter" MouseLeave="search1_MouseLeave"/>
+                    <Label x:Name="searchlabel"  Content="Search" HorizontalAlignment="Left" Margin="0,0,0,-3" Height="25.96" VerticalAlignment="Bottom"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Drop Down">
+                <Grid Background="#FFE5E5E5">
+                    <ListBox ItemsSource="{Binding CSVItems2}" x:Name="testing2" HorizontalAlignment="Left" Width="312"/>
+                    <ComboBox x:Name="keybox" TextBoxBase.TextChanged="ComboBox_TextChanged" ItemsSource="{ Binding FirstColumn }" Margin="332,20.04,10,0" Height="21.96" VerticalAlignment="Top" IsEditable="True" MaxDropDownHeight="500"/>
+                    <Label Content="{ Binding FirstColumnName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Left" Margin="332,-1,0,0" VerticalAlignment="Top" Height="23" Width="121"/>
+                    <TextBox x:Name="search" Height="23" Margin="332,63.363,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="TextBox_TextChanged"/>
+                    <Label Content="Filter" Margin="330,41,0,0" VerticalAlignment="Top" Height="25.96" HorizontalAlignment="Left" Width="83.263"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+    <Window.DataContext>
+        <local:MainViewModel />
+    </Window.DataContext>
+</Window>
