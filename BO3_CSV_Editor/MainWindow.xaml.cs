@@ -144,13 +144,20 @@ namespace BO3_CSV_Editor
          //Console.WriteLine(MVM.FirstColumn.Count);
          for (int i = 1; i < sources.Count; i++)
          {
-            clsDynCSVControls cdcc = new clsDynCSVControls();
-            cdcc.SetLabel(MVM.CSVColumns[i]);
+            try
+            {
+               clsDynCSVControls cdcc = new clsDynCSVControls();
+               cdcc.SetLabel(MVM.CSVColumns[i]);
 
-            cdcc.SetBox(sources[i]);
-            cdcc.box.Name = MVM.CSVColumns[i];
-            MVM.CSVItems.Add(cdcc.label);
-            MVM.CSVItems.Add(cdcc.box);
+               cdcc.SetBox(sources[i]);
+               cdcc.box.Name = MVM.CSVColumns[i];
+               MVM.CSVItems.Add(cdcc.label);
+               MVM.CSVItems.Add(cdcc.box);
+            }
+            catch
+            {
+               Console.WriteLine(MVM.CSVColumns[i]);
+            }
          }
       }
 
@@ -246,14 +253,14 @@ namespace BO3_CSV_Editor
          {
             Label l = (Label)MVM.CSVItems[i];
             //Console.WriteLine(l.Content);
-            if (l.Content.ToString().Contains(search.Text))
+            if (l.Content.ToString().ToLower().Contains(search.Text.ToLower()))
             {
                filter.Add(MVM.CSVItems[i]);
                filter.Add(MVM.CSVItems[i+1]);
                continue;
             }
             ComboBox c = (ComboBox)MVM.CSVItems[i + 1];
-            if (c.Text.ToString().Contains(search.Text))
+            if (c.Text.ToString().ToLower().Contains(search.Text.ToLower()))
             {
                filter.Add(MVM.CSVItems[i]);
                filter.Add(MVM.CSVItems[i+1]);
@@ -282,7 +289,7 @@ namespace BO3_CSV_Editor
          for(int i=0;i<dr.Row.ItemArray.Count();i++)
          {
             //Console.WriteLine(dr.Row.ItemArray[i].ToString());
-            if(dr.Row.ItemArray[i].ToString().Contains(search1.Text))
+            if(dr.Row.ItemArray[i].ToString().ToLower().Contains(search1.Text.ToLower()))
             {
                //Console.WriteLine(search.Text + " " + dr.Row.ItemArray[i].ToString());
                return true;
