@@ -1,2 +1,2 @@
 # BO3_CSV_Editor
-A simple csv editor that has a tag with filters and drop downs.
+A simple csv editor that has a tab with filters and drop downs.
